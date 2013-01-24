@@ -1,0 +1,18 @@
+net = class:new()
+
+function net:waitForConnection()
+	lube.client.Init() --initialize
+    lube.client.setHandshake("Hi!") --this is a unique string that will be sent when connecting and disconnecting
+    lube.client.setCallback(rcvCallback) --set rcvCallback as the callback for received messages
+	if tcpClient:connect(ipInfo[1],ipInfo[2],ipInfo[3]) then
+		return true
+	else
+		return false
+	end
+end
+
+
+function rcvCallback(data)
+    --data is the data received, do anything you want with it
+end
+
