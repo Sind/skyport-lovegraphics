@@ -1,6 +1,6 @@
 
 
-function love.load( )
+function love.load(args)
 	-- love.graphics.setMode( 0, 0 , false, false)
 	-- love.graphics.setMode(love.graphics.getWidth(),love.graphics.getHeight(),true,false)
 	-- debug.debug()
@@ -10,8 +10,17 @@ function love.load( )
 	require "LUBE"
 	require "draw"
 	-- requires here
-	ipCounter = 1
-	ipInfo = {"",""}
+	argsN = 0
+	for key,value in pairs(args) do argsN = argsN + 1 end
+
+	if argsN == 5 then
+		ipInfo = {args[2],args[3]}
+		waitingForInfo = false
+	else
+		ipCounter = 1
+		ipInfo = {"",""}
+		waitingForInfo = true
+	end
 
 	love.filesystem.setIdentity("Skyport - samplegraphics")
 
@@ -23,7 +32,6 @@ function love.load( )
 	for i = 1, #imagelist do
 		hexes[i] = love.graphics.newImage("graphics/" .. imagelist[i] .. ".png")
 	end
-	waitingForInfo = true
 	waitingForConnect = true
 	
 end

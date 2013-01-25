@@ -5,9 +5,10 @@ function net:connect()
 	local table = {
 		connect = 1
 	}
-	conn.handshake = json.encode(table,{indent = false})
+	conn.handshake = json.encode(table,{indent = false}) .. "\n"
 	conn:setPing(true, 16, "areYouStillThere?\n")
 	conn.callbacks.recv = rcvCallback()
+
 	conn:connect(ipInfo[1], tonumber(ipInfo[2]), true)
 
 end
@@ -43,6 +44,14 @@ function net:keypressed(key, unicode)
 			waitingForInfo = false
 		else
 			ipCounter = 2
+			if ipInfo[1] == "" then
+			ipInfo[1] = "127.0.0.1"
+			end
+		end
+	end
+	if key == "up" then
+		if ipCounter == 2 then
+			ipCounter = 1
 		end
 	end
 	if key == "backspace" then
