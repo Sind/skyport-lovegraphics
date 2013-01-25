@@ -2,10 +2,13 @@ net = class:new()
 
 function net:connect()
 	conn = lube.tcpClient()
-	conn.handshake = "Sandwich"
+	local table = {
+		connect = 1
+	}
+	conn.handshake = json.encode(table,{indent = false})
 	conn:setPing(true, 16, "areYouStillThere?\n")
 	conn.callbacks.recv = rcvCallback()
-	conn:connect(ipInfo[0], tonumber(ipInfo[1]), true)
+	conn:connect(ipInfo[1], tonumber(ipInfo[2]), true)
 
 end
 
@@ -15,12 +18,20 @@ end
 
 
 function net:update()
-	-- thisIsStartingToWork
+	if waitingForInfo == false then
+		net:connect()
+	end
 end
 
 function net:draw()
-love.graphics.print("IP: " .. ipInfo[1], 300, 200)
-love.graphics.print("Port: " .. ipInfo[2], 300, 230)
+	local marker = {"",""}
+	if ipCounter == 1 then
+		marker[1] = "|"
+	else
+		marker[2] = "|"
+	end
+	love.graphics.print("IP: " .. ipInfo[1] .. marker[1], 300, 200)
+	love.graphics.print("Port: " .. ipInfo[2] .. marker[2], 300, 230)
 end
 
 function net:keypressed(key, unicode)
@@ -33,5 +44,8 @@ function net:keypressed(key, unicode)
 		else
 			ipCounter = 2
 		end
+	end
+	if key == "backspace" then
+		ipInfo[ipCounter] = string.sub(ipInfo[ipCounter], 1, -2)
 	end
 end

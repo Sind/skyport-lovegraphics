@@ -1,9 +1,10 @@
 
 
 function love.load( )
-	love.graphics.setMode( 0, 0 , false, false)
-	love.graphics.setMode(love.graphics.getWidth(),love.graphics.getHeight(),true,false)
+	-- love.graphics.setMode( 0, 0 , false, false)
+	-- love.graphics.setMode(love.graphics.getWidth(),love.graphics.getHeight(),true,false)
 	-- debug.debug()
+	json = require "dkjson"
 	class = require "class"
 	require "net"
 	require "LUBE"
