@@ -3,11 +3,12 @@ function connect(ip,port)
 	local table = {
 		connect = 1
 	}
-	conn.handshake = json.encode(table,{indent = false}) .. "\n"
-	conn:setPing(true, 16, "areYouStillThere?\n")
+	conn.handshake = false
+	--conn.handshake = json.encode(table,{indent = false}) .. "\n"
+	conn:setPing(false)
 	conn.callbacks.recv = rcvCallback()
 	conn:connect(ip, port, true)
-
+	conn:send(json.encode(table,{indent = false})
 end
 
 function rcvCallback(data)
