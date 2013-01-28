@@ -1,67 +1,46 @@
-
-
 function love.load(args)
 	-- love.graphics.setMode( 0, 0 , false, false)
 	-- love.graphics.setMode(love.graphics.getWidth(),love.graphics.getHeight(),true,false)
-	-- debug.debug()
+	
 	json = require "dkjson"
 	class = require "class"
-	require "net"
 	require "LUBE"
-	require "draw"
-	-- requires here
+	require "collectInfo"
+	require "waitingForConnect"
+	require "net"
+
+	gamemodes = {collectInfo,waitingForConnect}
+
+
 	argsN = 0
 	for key,value in pairs(args) do argsN = argsN + 1 end
 
 	if argsN == 5 then
-		ipInfo = {args[2],args[3]}
-		waitingForInfo = false
+		ip = args[2]
+		port = tonumber(args[3])
+		mode = 2
 	else
-		ipCounter = 1
-		ipInfo = {"",""}
-		waitingForInfo = true
+		mode = 1
 	end
 
 	love.filesystem.setIdentity("Skyport - samplegraphics")
-
-	background = love.graphics.newImage("graphics/starrysky.png")
-
-	imagelist = {"void","grass","rock", "explosium", "rubidium","scrap","spawn"}
-	hexes = {}
-
-	for i = 1, #imagelist do
-		hexes[i] = love.graphics.newImage("graphics/" .. imagelist[i] .. ".png")
-	end
-	waitingForConnect = true
-	
+	quit = false
+	init = true
 end
 
-function love.draw( )
-	if waitingForConnect then
-		net:draw()
-	else
-		for i = 0, love.graphics.getWidth(), background:getWidth() do
-			for j = 0, love.graphics.getHeight(), background:getHeight() do
-				love.graphics.draw(background, i, j)
-			end
-		end
-		draw:drawBoard()
-		draw:drawEntities()
- 	end
+function love.draw()
+	gamemodes[mode]:draw()
 end
 
 function love.update()
-	if waitingForConnect then
-		net:update()
-	end
+	gamemodes[mode]:update()
 end
 
-function love.keypressed(key, unicode)   -- we do not need the unicode, so we can leave it out
+function love.keypressed(key,unicode)
 	if key == "escape" then
       	love.event.push("quit")   -- actually causes the app to quit
 	end
 
-	if waitingForInfo then
-		net:keypressed(key, unicode)
-	end
+	gamemodes[mode]:keypressed(key,unicode)
+
 end
