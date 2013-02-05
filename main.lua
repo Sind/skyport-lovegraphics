@@ -31,8 +31,12 @@ function love.draw()
 	gamemodes[mode]:draw()
 end
 
-function love.update()
-	gamemodes[mode]:update()
+function love.update(dt)
+        gamemodes[mode]:update()
+        if conn then
+	   conn:update(dt)
+	end
+	
 end
 
 function love.keypressed(key,unicode)

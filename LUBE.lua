@@ -123,7 +123,6 @@ function client:send(data)
 end
 
 function client:receive()
-	foobar()
 	-- Check if we're connected and pass it on.
 	if not self.connected then
 		return false, "Not connected"
