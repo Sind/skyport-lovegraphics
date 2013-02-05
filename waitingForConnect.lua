@@ -2,10 +2,15 @@ waitingForConnect = class:new()
 
 function waitingForConnect:update()
 	if init then
-	connect(ip,port)
-	init = false
+		infocounter = 0;
+		connect(ip,port)
+		init = false
 	end
-	--
+	
+	if gamestateset then
+		exit = true
+	end
+
 	if exit then
 		init = true
 		exit = false

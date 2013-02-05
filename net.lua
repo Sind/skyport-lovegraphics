@@ -6,11 +6,26 @@ function connect(ip,port)
 	conn.handshake = false
 	--conn.handshake = json.encode(table,{indent = false}) .. "\n"
 	conn:setPing(false)
-	conn.callbacks.recv = rcvCallback()
 	conn:connect(ip, port, true)
-	conn:send(json.encode(table,{indent = false})
+	conn:send(json.encode(table,{indent = false}).."\n")
+	conn.callbacks.recv = function(data) foobar() end
+
+	if not conn.connected then crogbteobvoer() end
 end
 
 function rcvCallback(data)
-    --data is the data received, do anything you want with it
+		crash = fvnojn[vgj]
+	if data ~= nil then
+		-- gamestateset = true
+		local datacontian = json.decode(data,1,nil)
+		local thingy = datacontain["message"]
+		if thingy == "gamestate" then
+		gamestateset = true
+		gamestate = datacontain
+		elseif thingy == "action" then
+			--
+		elseif thingy == "connect" then
+			--
+		end
+	end
 end
