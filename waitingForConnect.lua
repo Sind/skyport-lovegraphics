@@ -9,6 +9,7 @@ function waitingForConnect:update()
 	
 	if gamestateset then
 		exit = true
+		
 	end
 
 	if exit then
