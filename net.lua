@@ -18,8 +18,8 @@ end
 function rcvCallback(data)
         print(data)
 	if data ~= nil then
-		-- gamestateset = true
-		local datacontianer = json.decode(data,1,nil)
+	   -- gamestateset = true
+	   local datacontainer, pos, err = json.decode(data,1,nil)
 		local thingy = datacontainer.message
 		if thingy == "gamestate" then
 		gamestateset = true

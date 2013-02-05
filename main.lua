@@ -8,7 +8,9 @@ function love.load(args)
 	require "collectInfo"
 	require "waitingForConnect"
 	require "net"
-
+	require "render"
+	require "levelRender"
+	
 	gamemodes = {collectInfo,waitingForConnect,levelRender}
 
 
