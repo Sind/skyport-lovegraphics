@@ -1,7 +1,7 @@
 function love.load(args)
 	
-	-- love.graphics.setMode( 0, 0 , false, false)
-	-- love.graphics.setMode(love.graphics.getWidth(),love.graphics.getHeight(),true,false)
+	love.graphics.setMode( 0, 0 , false, false)
+	love.graphics.setMode(love.graphics.getWidth(),love.graphics.getHeight(),true,false)
 	
 	json = require "dkjson"
 	class = require "class"
@@ -49,4 +49,24 @@ function love.keypressed(key,unicode)
 
 	gamemodes[mode]:keypressed(key,unicode)
 
+end
+
+
+function split(str, pat)
+   local t = {}  -- NOTE: use {n = 0} in Lua-5.0
+   local fpat = "(.-)" .. pat
+   local last_end = 1
+   local s, e, cap = str:find(fpat, 1)
+   while s do
+      if s ~= 1 or cap ~= "" then
+	 table.insert(t,cap)
+      end
+      last_end = e+1
+      s, e, cap = str:find(fpat, last_end)
+   end
+   if last_end <= #str then
+      cap = str:sub(last_end)
+      table.insert(t, cap)
+   end
+   return t
 end

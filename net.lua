@@ -15,18 +15,18 @@ end
 
 function rcvCallback(data)
 	if data ~= nil then
-	   -- gamestateset = true
 	    local datacontainer, pos, err = json.decode(data,1,nil)
-	    if not err then
-			local thingy = datacontainer.message
-			if thingy == "gamestate" then
-				gamestateset = true
-				gamestate = datacontainer
-			elseif thingy == "action" then
-				--
-			elseif thingy == "connect" then
-				--
-			end
+	    if err then
+	    	return
+	    end
+		local thingy = datacontainer.message
+		if thingy == "gamestate" then
+			gamestateset = true
+			gamestate = datacontainer
+		elseif thingy == "action" then
+			--
+		elseif thingy == "connect" then
+			--
 		end
 	end
 end

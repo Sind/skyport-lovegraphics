@@ -3,6 +3,8 @@ levelRender= class:new()
 function levelRender:update()
 	if init then
 		board = love.graphics.newCanvas((gamestate.map["k-length"]+gamestate.map["j-length"])*48-32,(gamestate.map["k-length"]+gamestate.map["j-length"])*32)
+		scoreboard = love.graphics.newCanvas(200,love.graphics.getHeight())
+
 		background = love.graphics.newImage("graphics/starrysky.png")
 		hex = {}
 		hex["G"] = love.graphics.newImage("graphics/grass.png")
@@ -14,7 +16,6 @@ function levelRender:update()
 
 		init = false
 	end
-
 	if exit then
 		init = true
 		exit = false
@@ -26,8 +27,10 @@ function levelRender:draw()
 	if not init then
 		render:background(board)
 		render:tiles(board)
+		render:players(board, gamestate.players)
+		-- render:stats(scoreboard)
 		love.graphics.draw(board,0,0)
-		--love.graphics.print("attempt",9,9)
+		love.graphics.draw(scoreboard,love.graphics.getWidth()-scoreboard:getWidth(),0)
 	end
 end
 
