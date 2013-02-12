@@ -52,7 +52,7 @@ end
 
 function render:stats( canvas )
 	love.graphics.setCanvas(canvas)
-	-- body
+	love.graphics.print("this is for testing", 0, 0)
 	love.graphics.setCanvas()
 end
 

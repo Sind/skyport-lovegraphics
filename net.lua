@@ -1,7 +1,9 @@
 function connect(ip,port)
 	conn = lube.tcpClient()
 	local table = {
-		connect = 1
+		message = "connect",
+		revision = 1,
+		password = "supersecretpassword"
 	}
 	conn.handshake = false
 	--conn.handshake = json.encode(table,{indent = false}) .. "\n"

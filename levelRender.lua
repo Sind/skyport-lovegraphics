@@ -28,7 +28,7 @@ function levelRender:draw()
 		render:background(board)
 		render:tiles(board)
 		render:players(board, gamestate.players)
-		-- render:stats(scoreboard)
+		render:stats(scoreboard)
 		love.graphics.draw(board,0,0)
 		love.graphics.draw(scoreboard,love.graphics.getWidth()-scoreboard:getWidth(),0)
 	end
