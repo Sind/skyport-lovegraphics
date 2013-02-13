@@ -1,6 +1,6 @@
 waitingForConnect = class:new()
 
-function waitingForConnect:update()
+function waitingForConnect:update(dt)
 	if init then
 		infocounter = 0;
 		connect(ip,port)

@@ -26,7 +26,9 @@ function rcvCallback(data)
 			gamestateset = true
 			gamestate = datacontainer
 		elseif thingy == "action" then
-			--
+			currentAction = datacontainer
+			action = true
+			actiontime = 0
 		elseif thingy == "connect" then
 			--
 		end

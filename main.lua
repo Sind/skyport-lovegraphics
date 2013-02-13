@@ -1,7 +1,7 @@
 function love.load(args)
 	
-	love.graphics.setMode( 0, 0 , false, false)
-	love.graphics.setMode(love.graphics.getWidth(),love.graphics.getHeight(),true,false)
+	-- love.graphics.setMode( 0, 0 , false, false)
+	-- love.graphics.setMode(love.graphics.getWidth(),love.graphics.getHeight(),true,false)
 	
 	json = require "dkjson"
 	class = require "class"
@@ -11,6 +11,7 @@ function love.load(args)
 	require "net"
 	require "render"
 	require "levelRender"
+	require "animations"
 	
 	gamemodes = {collectInfo,waitingForConnect,levelRender}
 
@@ -31,26 +32,34 @@ function love.load(args)
 end
 
 function love.draw()
-	gamemodes[mode]:draw()
+	if gamemodes[mode].draw then
+		gamemodes[mode]:draw()
+	end
 end
 
 function love.update(dt)
-        gamemodes[mode]:update()
-        if conn then
-	   conn:update(dt)
+	if conn then
+		conn:update(dt)
 	end
-	
+	if gamemodes[mode].update then
+		gamemodes[mode]:update(dt)
+	end
 end
 
 function love.keypressed(key,unicode)
 	if key == "escape" then
       	love.event.push("quit")   -- actually causes the app to quit
 	end
-
-	gamemodes[mode]:keypressed(key,unicode)
-
+	if gamemodes[mode].keypressed then
+		gamemodes[mode]:keypressed(key,unicode)
+	end
 end
 
+function love.keyreleased(key,unicode)
+	if gamemodes[mode].keyreleased then
+		gamemodes[mode]:keyreleased()
+	end
+end
 
 function split(str, pat)
    local t = {}  -- NOTE: use {n = 0} in Lua-5.0

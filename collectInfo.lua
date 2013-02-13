@@ -3,7 +3,7 @@ collectInfo = class:new()
 ipCounter = 1
 ipInfo = {"",""}
 
-function collectInfo:update()
+function collectInfo:update(dt)
 	if(init) then
 		waitingForInfo = true
 		init = false

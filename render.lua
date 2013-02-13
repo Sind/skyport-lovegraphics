@@ -24,7 +24,6 @@ function render:tiles( canvas )
 			end
 		end
 	end
-	-- love.graphics.draw(hex["G"],0,0)
 	love.graphics.setCanvas()
 end
 
@@ -37,11 +36,8 @@ end
 
 function render:player( canvas, player, color)
 	love.graphics.setCanvas( canvas )
-	local split = split(player.position, ",")
-	local jpos = tonumber(split[1])
-	local kpos = tonumber(split[2])
-	local realX = render:toRealX(jpos+1,kpos+1)
-	local realY = render:toRealY(jpos+1,kpos+1)
+	local realX = render:toRealX(player.realJ+1,player.realK+1)
+	local realY = render:toRealY(player.realJ+1,player.realK+1)
 	love.graphics.print(player.name,realX,realY)
 	love.graphics.setColor(color[1],color[2],color[3])
 	love.graphics.circle("fill", realX+32, realY+32,10)
@@ -52,6 +48,7 @@ end
 
 function render:stats( canvas )
 	love.graphics.setCanvas(canvas)
+	love.graphics.setBackgroundColor(0,0,0)
 	love.graphics.print("this is for testing", 0, 0)
 	love.graphics.setCanvas()
 end
