@@ -12,12 +12,7 @@ function animations:move(dt, players, actionData )
 	actiontime = actiontime + dt
 	if actiontime >= 1 then
 		actiontime = 1 
-		action = false
-		local table ={
-			message = "ready"
-		}
-		
-		conn:send(json.encode(table,{indent = false}).."\n")
+		actions = actions-1
 
 		for i,player in pairs(players) do
 			if player.name == actionData.from then
@@ -67,5 +62,4 @@ function animations:move(dt, players, actionData )
 			end
 		end
 	end
-	-- return players
 end
