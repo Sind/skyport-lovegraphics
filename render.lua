@@ -69,7 +69,7 @@ function render:playerstats( canvas, player, offset )
 	love.graphics.rectangle("fill",50,offset+40,player.health,13)
 	love.graphics.setColor(255,255,255)
 	love.graphics.print(player.health,60,offset + 40)
-	love.graphics.print("Primary weapon: " .. player["primary-weapon"] .. "\nSecond weapon: " .. player["secondary-weapon"], 15, offset + 60)
+	love.graphics.print("Primary weapon: " .. player["primary-weapon"]["name"] .. " " .. player["primary-weapon"]["level"] "\nSecond weapon: " .. player["secondary-weapon"]["name"] .. " " .. player["secondary-weapon"]["level"], 15, offset + 60)
 end
 
 function render:toRealX( k , j )
