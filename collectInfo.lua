@@ -8,6 +8,7 @@ function collectInfo:update(dt)
 		waitingForInfo = true
 		init = false
 	end
+	
 	if waitingForInfo == false then
 		exit = true
 	end
@@ -19,7 +20,6 @@ function collectInfo:update(dt)
 		exit = false
 		mode = 2
 	end
-
 end
 
 function collectInfo:draw()
@@ -38,8 +38,7 @@ function collectInfo:keypressed(key, unicode)
 		ipInfo[ipCounter] = ipInfo[ipCounter] .. key
 	end
 	if key == "return" or key == "tab" or key == "down" then
-		if ipCounter == 2 then
-			waitingForInfo = false
+		if ipCounter == 2 then waitingForInfo = false
 		else
 			ipCounter = 2
 			if ipInfo[1] == "" then
@@ -47,11 +46,7 @@ function collectInfo:keypressed(key, unicode)
 			end
 		end
 	end
-	if key == "up" then
-		if ipCounter == 2 then
-			ipCounter = 1
-		end
-	end
+	if key == "up" and ipCounter == 2 then ipCounter = 1 end
 	if key == "backspace" then
 		ipInfo[ipCounter] = string.sub(ipInfo[ipCounter], 1, -2)
 	end

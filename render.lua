@@ -46,11 +46,30 @@ function render:player( canvas, player, color)
 	love.graphics.setCanvas()
 end
 
-function render:stats( canvas )
+function render:stats( canvas, state)
 	love.graphics.setCanvas(canvas)
-	love.graphics.setBackgroundColor(0,0,0)
-	love.graphics.print("this is for testing", 0, 0)
+	love.graphics.setColor(40,40,40)
+	love.graphics.rectangle("fill",0,0,canvas:getWidth(),canvas:getHeight())
+	love.graphics.setColor(255,255,255)
+	local offset = 100
+	
+	love.graphics.print("Turn number: " .. state.turn,20,20)
+
+	for i,player in ipairs(state.players) do
+		render:playerstats(canvas, player, (i-.5)*offset)
+	end
 	love.graphics.setCanvas()
+end
+
+function render:playerstats( canvas, player, offset )
+	love.graphics.print(player.name,25,offset,0,1.5,1.5)
+	love.graphics.print("Score: " .. player.score,15,offset+25)
+	love.graphics.print("HP:",15,offset+40)
+	love.graphics.setColor(125,0,0)
+	love.graphics.rectangle("fill",50,offset+40,player.health,13)
+	love.graphics.setColor(255,255,255)
+	love.graphics.print(player.health,60,offset + 40)
+	love.graphics.print("Primary weapon: " .. player["primary-weapon"] .. "\nSecond weapon: " .. player["secondary-weapon"], 15, offset + 60)
 end
 
 function render:toRealX( k , j )
