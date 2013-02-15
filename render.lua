@@ -12,7 +12,6 @@ function render:background( canvas )
 end
 
 function render:tiles( canvas )
-	-- print(canvas:getHeight())
 	love.graphics.setCanvas( canvas )
 	for j = 1, gamestate.map["j-length"] do
 		for k = 1, gamestate.map["k-length"] do
@@ -29,7 +28,7 @@ end
 
 function render:players( canvas, players)
 	local colorArray = {{255,0,0},{0,255,0},{0,0,255},{255,255,0},{255,0,255},{0,255,255}}
-	for i,v in pairs(players) do
+	for i,v in ipairs(players) do
 		render:player(canvas, v, colorArray[i])
 	end
 end
@@ -39,7 +38,7 @@ function render:player( canvas, player, color)
 	local realX = render:toRealX(player.realJ+1,player.realK+1)
 	local realY = render:toRealY(player.realJ+1,player.realK+1)
 	love.graphics.print(player.name,realX,realY)
-	love.graphics.setColor(color[1],color[2],color[3])
+	love.graphics.setColor(color)
 	love.graphics.circle("fill", realX+32, realY+32,10)
 	love.graphics.setColor(255,255,255)
 
