@@ -25,11 +25,11 @@ function levelRender:update(dt)
 		init = false
 		ready = json.encode( { message = "ready"},{indent = false})
 	end
-
-	animations:setJK(gamestate.players)
-
+	if gamestateset then
+	   animations:setJK(gamestate.players)
+	end
 	if actions > 0 then
-		if currentAction.type == "move" then
+		if actionTable[actions].type == "move" then
 			animations:move(dt,gamestate.players,actionTable[actions])
 		end
 	end

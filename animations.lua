@@ -1,7 +1,7 @@
 animations = class:new();
 
 function animations:setJK( players )
-	for i,player in pairs(players) do
+	for i,player in ipairs(players) do
 		local positions = split(player.position, ",")
 		player.realJ = positions[1]
 		player.realK = positions[2]
@@ -14,7 +14,7 @@ function animations:move(dt, players, actionData )
 		actiontime = 1 
 		actions = actions-1
 
-		for i,player in pairs(players) do
+		for i,player in ipairs(players) do
 			if player.name == actionData.from then
 				local direction = actionData.direction
 				if direction == "up" then
@@ -40,8 +40,9 @@ function animations:move(dt, players, actionData )
 				end
 			end
 		end
+		actiontime = 0
 	else
-		for i,player in pairs(players) do
+		for i,player in ipairs(players) do
 			if player.name == actionData.from then
 				local direction = actionData.direction
 				if direction == "up" then
