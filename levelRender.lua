@@ -52,7 +52,7 @@ function levelRender:draw()
 	if not init then
 		render:background(board)
 		render:tiles(board)
-		levelRender:sortplayers(gamestate.players)
+		gamestate.players = levelRender:sortplayers(gamestate.players)
 		render:players(board, gamestate.players)
 		render:stats(scoreboard, gamestate)
 		love.graphics.draw(board,0,0,0,1,1,boardX,boardY)
@@ -63,7 +63,7 @@ end
 
 function levelRender:testButtons()
 	if love.keyboard.isDown("left") then
-		if boardX <= 0 then
+		if boardX >= 0 then
 			boardX = boardX - 2
 		end
 	elseif love.keyboard.isDown("right") then
@@ -72,7 +72,7 @@ function levelRender:testButtons()
 		end
 	end
 	if love.keyboard.isDown("up") then
-		if boardY <= 0 then
+		if boardY >= 0 then
 			boardY = boardY - 2
 		end
 	elseif love.keyboard.isDown("down") then
@@ -82,16 +82,16 @@ function levelRender:testButtons()
 	end
 end
 
-function levelRender:sortslayers(players)
+function levelRender:sortplayers(players)
 	local playerstable = {}
 	local index = 1
 	for i,playername in ipairs(playernames) do
 		for j,player in ipairs(players) do
 			if playername == player.name then
 				playerstable[i] = player
-				return
+				break
 			end
 		end
 	end
-	players = playerstable
+	return playerstable
 end
