@@ -64,20 +64,20 @@ end
 function levelRender:testButtons()
 	if love.keyboard.isDown("left") then
 		if boardX >= 0 then
-			boardX = boardX - 2
+			boardX = boardX - 10
 		end
 	elseif love.keyboard.isDown("right") then
 		if board:getWidth() > love.graphics.getWidth() - scoreboard:getWidth() + boardX then
-			boardX = boardX + 2
+			boardX = boardX + 10
 		end
 	end
 	if love.keyboard.isDown("up") then
 		if boardY >= 0 then
-			boardY = boardY - 2
+			boardY = boardY - 10
 		end
 	elseif love.keyboard.isDown("down") then
 		if board:getHeight() > love.graphics.getHeight() + boardY then
-			boardY = boardY + 2
+			boardY = boardY + 10
 		end
 	end
 end
