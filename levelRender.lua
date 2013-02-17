@@ -2,7 +2,11 @@ levelRender = class:new()
 
 function levelRender:update(dt)
 	if init then
-		board = love.graphics.newCanvas((gamestate.map["k-length"]+gamestate.map["j-length"])*48-32,(gamestate.map["k-length"]+gamestate.map["j-length"])*32)
+		boardWidth = (gamestate.map["k-length"]+gamestate.map["j-length"])*48-32
+		boardHeight = (gamestate.map["k-length"]+gamestate.map["j-length"])*32
+
+		board = love.graphics.newCanvas(pot(boardWidth, boardHeight))
+	
 		scoreboard = love.graphics.newCanvas(200,love.graphics.getHeight())
 
 		boardX = 0
@@ -56,10 +60,10 @@ function levelRender:draw()
 		gamestate.players = levelRender:sortplayers(gamestate.players)
 		render:players(board, gamestate.players)
 		render:stats(scoreboard, gamestate)
-		love.graphics.setBlendMode("premultiplied")
+		love.graphics.setColorMode("replace")
 		love.graphics.draw(board,0,0,0,1,1,boardX,boardY)
 		love.graphics.draw(scoreboard,love.graphics.getWidth()-scoreboard:getWidth(),0)
-		love.graphics.setBlendMode("alpha")
+		love.graphics.setColorMode("modulate")
 	end
 end
 
@@ -67,20 +71,20 @@ end
 function levelRender:testButtons()
 	if love.keyboard.isDown("left") then
 		if boardX >= 0 then
-			boardX = boardX - 10
+			boardX = boardX - 8
 		end
 	elseif love.keyboard.isDown("right") then
-		if board:getWidth() > love.graphics.getWidth() - scoreboard:getWidth() + boardX then
-			boardX = boardX + 10
+		if boardWidth > love.graphics.getWidth() - scoreboard:getWidth() + boardX then
+			boardX = boardX + 8
 		end
 	end
 	if love.keyboard.isDown("up") then
 		if boardY >= 0 then
-			boardY = boardY - 10
+			boardY = boardY - 8
 		end
 	elseif love.keyboard.isDown("down") then
-		if board:getHeight() > love.graphics.getHeight() + boardY then
-			boardY = boardY + 10
+		if boardHeight > love.graphics.getHeight() + boardY then
+			boardY = boardY + 8
 		end
 	end
 end
@@ -97,4 +101,20 @@ function levelRender:sortplayers(players)
 		end
 	end
 	return playerstable
+end
+
+function pot( width, height )
+	local newWidth = 1
+	local newHeight = 1
+	local testbool = true
+	while testbool do
+		newWidth = newWidth * 2
+		if newWidth >= width then testbool = false end
+	end
+	testbool = true
+	while testbool do
+		newHeight = newHeight * 2
+		if newHeight >= height then testbool = false end
+	end
+	return newWidth, newHeight
 end
