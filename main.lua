@@ -3,6 +3,7 @@ function love.load(args)
 	-- love.graphics.setMode( 0, 0 , false, false)
 	-- love.graphics.setMode(love.graphics.getWidth(),love.graphics.getHeight(),true,false)
 	
+	-- json = require "json"
 	json = require "dkjson"
 	class = require "class"
 	require "LUBE"
@@ -44,6 +45,7 @@ function love.update(dt)
 	if gamemodes[mode].update then
 		gamemodes[mode]:update(dt)
 	end
+	collectgarbage('collect')
 end
 
 function love.keypressed(key,unicode)
@@ -62,6 +64,7 @@ function love.keyreleased(key,unicode)
 end
 
 function split(str, pat)
+	str = str or "0,0"
    local t = {}  -- NOTE: use {n = 0} in Lua-5.0
    local fpat = "(.-)" .. pat
    local last_end = 1

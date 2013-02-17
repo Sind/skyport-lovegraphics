@@ -9,16 +9,20 @@ function connect(ip,port)
 	conn:setPing(false)
 	conn:connect(ip, port, true)
 	conn:send(json.encode(table,{indent = false}).."\n")
+	-- conn:send(json.encode(table) .. "\n")
 	conn.callbacks.recv = rcvCallback
-	if not conn.connected then crogbteobvoer() end
+	assert(not conn.conncted, "Could not connect to server")
+	-- if not conn.connected then crogbteobvoer() end
 end
 
 
 function rcvCallback(data)
-   lines = split(data, "\n")
-   for k,v in ipairs(lines) do
-      processLine(v)
-   end
+	-- 
+	print(data)
+	local lines = split(data, "\n")
+	for k,v in ipairs(lines) do
+		processLine(v)
+	end
 end
 
 function processLine(data)
@@ -28,6 +32,10 @@ function processLine(data)
 			print("fail to decode json package: " .. err)
 			return
 		end
+		-- local datacontainer = json.decode(data)
+		-- if not datacontainer.message then
+		-- 	return
+		-- end
 		local thingy = datacontainer.message
 		if thingy == "gamestate" then
 			if datacontainer["turn"] ~= 0 then

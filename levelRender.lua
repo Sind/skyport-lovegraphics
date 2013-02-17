@@ -24,6 +24,7 @@ function levelRender:update(dt)
 
 		init = false
 		ready = json.encode( { message = "ready"},{indent = false})
+		-- ready = json.encode({message = "ready"})
 	end
 	if gamestateset then
 	   animations:setJK(gamestate.players)
@@ -55,8 +56,10 @@ function levelRender:draw()
 		gamestate.players = levelRender:sortplayers(gamestate.players)
 		render:players(board, gamestate.players)
 		render:stats(scoreboard, gamestate)
+		love.graphics.setBlendMode("premultiplied")
 		love.graphics.draw(board,0,0,0,1,1,boardX,boardY)
 		love.graphics.draw(scoreboard,love.graphics.getWidth()-scoreboard:getWidth(),0)
+		love.graphics.setBlendMode("alpha")
 	end
 end
 
