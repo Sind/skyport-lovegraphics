@@ -1,7 +1,8 @@
 function love.load(args)
 	
 	-- love.graphics.setMode( 0, 0 , false, false)
-	-- love.graphics.setMode(love.graphics.getWidth(),love.graphics.getHeight(),true,false)
+        love.graphics.setMode(1024, 768, false, false)
+        -- love.graphics.setMode(love.graphics.getWidth(),love.graphics.getHeight(),false,false)
 	
 	-- json = require "json"
 	json = require "dkjson"
