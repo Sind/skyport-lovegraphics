@@ -9,7 +9,7 @@ function animations:setJK( players )
 end
 
 function animations:move(dt, players, actionData )
-	actiontime = actiontime + dt * 4
+	actiontime = actiontime + dt * 3
 	if actiontime >= 1 then
 		actiontime = 1 
 		actions = actions-1

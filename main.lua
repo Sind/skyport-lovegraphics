@@ -17,16 +17,20 @@ function love.load(args)
 	
 	gamemodes = {collectInfo,waitingForConnect,levelRender}
 
-
-	argsN = 0
-	for key,value in pairs(args) do argsN = argsN + 1 end	
-	if argsN == 5 then
+	--[[
+	if #args == 5 then
 		ip = args[2]
 		port = tonumber(args[3])
 		mode = 2
 	else
 		mode = 1
 	end
+	]]--
+	
+	ip = "localhost"
+	port = 54331
+	mode = 2
+
 	gamestateset = false
 	love.filesystem.setIdentity("Skyport - samplegraphics")
 	quit = false

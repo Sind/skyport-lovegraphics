@@ -4,7 +4,9 @@ function levelRender:update(dt)
 	if init then
 		boardWidth = (gamestate.map["k-length"]+gamestate.map["j-length"])*48-32
 		boardHeight = (gamestate.map["k-length"]+gamestate.map["j-length"])*32
-
+		newwidth, newheight = pot(boardWidth, boardHeight)
+		-- print(boardWidth .. " x " .. boardHeight)
+		-- print(newwidth .. " x " .. newheight)
 		board = love.graphics.newCanvas(pot(boardWidth, boardHeight))
 	
 		scoreboard = love.graphics.newCanvas(200,love.graphics.getHeight())

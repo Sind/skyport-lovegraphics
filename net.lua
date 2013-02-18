@@ -7,12 +7,10 @@ function connect(ip,port)
 	}
 	conn.handshake = false
 	conn:setPing(false)
-	conn:connect(ip, port, true)
+	local connected = conn:connect(ip, port, true)
 	conn:send(json.encode(table,{indent = false}).."\n")
-	-- conn:send(json.encode(table) .. "\n")
 	conn.callbacks.recv = rcvCallback
-	assert(not conn.conncted, "Could not connect to server")
-	-- if not conn.connected then crogbteobvoer() end
+	assert(connected, "Could not connect to server\nMake sure the server is started up before you start the graphics engine")
 end
 
 
@@ -29,13 +27,9 @@ function processLine(data)
 	if data ~= nil then
 		local datacontainer, pos, err = json.decode(data,1,nil)
 		if err then
-			print("fail to decode json package: " .. err)
+			-- print("fail to decode json package: " .. err)
 			return
 		end
-		-- local datacontainer = json.decode(data)
-		-- if not datacontainer.message then
-		-- 	return
-		-- end
 		local thingy = datacontainer.message
 		if thingy == "gamestate" then
 			if datacontainer["turn"] ~= 0 then

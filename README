@@ -1,0 +1,16 @@
+Skyport - 2D graphics engine
+
+	made with LÖVE (www.love2d.org)
+
+
+Tiles:
+	- Green:  normal grass;   can be walked on
+	- Grey:   Rock tile;      can't be walked on, lazer and and droid can't pass through it
+	- Blank:  Void tile;      can't be walked on, droid can't pass through it
+	- Red:    Rhubidium tile; can be walked on,   can be mined to get rhubidium
+	- Orange: Explosium tile; can be walked on,   can be mined to get explosium
+	- Yellow: Scrap tile;     can be walked on,   can be mined to get scrap
+
+
+Known errors:
+	a too big skyport map will crash the game
