@@ -39,9 +39,21 @@ function render:player( canvas, player, color)
 	local realY = render:toRealY(player.realJ+1,player.realK+1)
 	love.graphics.print(player.name,realX,realY)
 	love.graphics.setColor(color)
-	love.graphics.circle("fill", realX+32, realY+32,10)
+	love.graphics.circle("fill", realX+20, realY+19,10)
 	love.graphics.setColor(255,255,255)
 
+	love.graphics.setCanvas()
+end
+
+function render:highlights(canvas,que)
+	love.graphics.setCanvas(canvas)
+	for i,v in ipairs(que) do
+		v.color[4] = 128
+		love.graphics.setColor(v.color)
+		local J,K = animations:setJKp(v.coordinate)
+		love.graphics.rectangle("fill",render:toRealX(J+1,K+1),render:toRealY(J+1,K+1),40,38)
+		love.graphics.setColor(255,255,255)
+	end
 	love.graphics.setCanvas()
 end
 
@@ -53,7 +65,7 @@ function render:stats( canvas, state)
 	local offset = 100
 	
 	love.graphics.print("Turn number: " .. state.turn,20,20)
-
+	
 	for i,player in ipairs(state.players) do
 		render:playerstats(canvas, player, (i-.5)*offset)
 	end
@@ -71,10 +83,40 @@ function render:playerstats( canvas, player, offset )
 	love.graphics.print("Primary weapon: " .. player["primary-weapon"]["name"] .. " " .. player["primary-weapon"]["level"] .. "\nSecond weapon: " .. player["secondary-weapon"]["name"] .. " " .. player["secondary-weapon"]["level"], 15, offset + 60)
 end
 
-function render:toRealX( k , j )
-	return 48 * (gamestate.map["k-length"]-k+j-1)
+function render:laser(canvas,wd)
+	-- print("rendering laser")
+	-- tablePrint(wd)
+
+	love.graphics.setCanvas(canvas)
+	love.graphics.setColor(255,255,255,180)
+	love.graphics.draw(laserArt[wd.size],wd.x,wd.y,wd.rotation,wd.length,1,laserArt[wd.size]:getWidth()/2,laserArt[wd.size]:getHeight()/2)
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.setCanvas()
 end
 
-function render:toRealY( k, j )
-	return 32 * (j + k - 2)
+function render:mortar(canvas,wd)
+
+	love.graphics.setCanvas(canvas)
+	if wd.atype == "bombthrow" then
+		love.graphics.setColor(0,0,0)
+		love.graphics.circle("fill",wd.x,wd.y,wd.size)
+		love.graphics.setColor(255,255,255)
+	elseif wd.atype == "explosion" then
+		love.graphics.setColor(0,0,0,128)
+		love.graphics.draw(explosionImage,x,y,0,1,1,explosionImage:getWidth()/2,explosionImage:getHeight()/2)
+		love.graphics.setColor(255,255,255,255)
+	end
+	love.graphics.setCanvas()
+end
+
+function render:droid(canvas,wd)
+
+end
+
+function render:toRealX( j, k )
+	return 30 * (gamestate.map["k-length"]+k-j-1)
+end
+
+function render:toRealY( j, k )
+	return 19 * (j + k - 2)
 end

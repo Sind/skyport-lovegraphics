@@ -10,7 +10,3 @@ Tiles:
 	- Red:    Rhubidium tile; can be walked on,   can be mined to get rhubidium
 	- Orange: Explosium tile; can be walked on,   can be mined to get explosium
 	- Yellow: Scrap tile;     can be walked on,   can be mined to get scrap
-
-
-Known errors:
-	a too big skyport map will crash the game

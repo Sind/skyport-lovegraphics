@@ -2,8 +2,8 @@ levelRender = class:new()
 
 function levelRender:update(dt)
 	if init then
-		boardWidth = (gamestate.map["k-length"]+gamestate.map["j-length"])*48-32
-		boardHeight = (gamestate.map["k-length"]+gamestate.map["j-length"])*32
+		boardWidth = (gamestate.map["k-length"]+gamestate.map["j-length"])*30-20
+		boardHeight = (gamestate.map["k-length"]+gamestate.map["j-length"])*20
 		newwidth, newheight = pot(boardWidth, boardHeight)
 		-- print(boardWidth .. " x " .. boardHeight)
 		-- print(newwidth .. " x " .. newheight)
@@ -15,6 +15,13 @@ function levelRender:update(dt)
 		boardY = 0
 
 		background = love.graphics.newImage("graphics/starrysky.png")
+		explosionImage = love.graphics.newImage("graphics/explosion.png")
+
+		laserArt = {}
+		laserArt[1] = love.graphics.newImage("graphics/laserS1.png")
+		laserArt[2] = love.graphics.newImage("graphics/laserS2.png")
+		laserArt[3] = love.graphics.newImage("graphics/laserS3.png")
+
 		hex = {}
 		hex["G"] = love.graphics.newImage("graphics/grass.png")
 		hex["R"] = love.graphics.newImage("graphics/rubidium.png")
@@ -23,12 +30,16 @@ function levelRender:update(dt)
 		hex["S"] = love.graphics.newImage("graphics/spawn.png")
 		hex["O"] = love.graphics.newImage("graphics/rock.png")
 
+
 		actions = 0
 		actionTable = {nil,nil,nil}
 
 		endturn = false
 
 		init = false
+
+		highlightQue = {}
+
 		ready = json.encode( { message = "ready"},{indent = false})
 		-- ready = json.encode({message = "ready"})
 	end
@@ -36,8 +47,23 @@ function levelRender:update(dt)
 	   animations:setJK(gamestate.players)
 	end
 	if actions > 0 then
-		if actionTable[actions].type == "move" then
-			animations:move(dt,gamestate.players,actionTable[actions])
+		currentAction = actionTable[actions]
+		local player = nil
+		for i,cplayer in ipairs(gamestate.players) do
+			if cplayer.name == currentAction.from then
+				player = cplayer
+			end
+		end
+
+		local atype = currentAction.type
+		if  atype == "move" then
+			animations:move(dt,player,currentAction)
+		elseif atype == "pass" or atype == "droid" or atype == "mortar" then
+			actions = actions - 1
+		elseif atype == "mortar" then
+			weaponData = animations:mortar(dt,player,currentAction)
+		elseif atype == "laser" then
+			weaponData = animations:laser(dt,player,currentAction)
 		end
 	end
 
@@ -62,6 +88,16 @@ function levelRender:draw()
 		gamestate.players = levelRender:sortplayers(gamestate.players)
 		render:players(board, gamestate.players)
 		render:stats(scoreboard, gamestate)
+		render:highlights(board,highlightQue)
+		if mortar then
+			render:mortar(board,weaponData)
+		end
+		if laser then
+			render:laser(board,weaponData)
+		end
+		if droid then
+			render:droid(board,weaponData)
+		end
 		love.graphics.setColorMode("replace")
 		love.graphics.draw(board,0,0,0,1,1,boardX,boardY)
 		love.graphics.draw(scoreboard,love.graphics.getWidth()-scoreboard:getWidth(),0)

@@ -87,3 +87,9 @@ function split(str, pat)
    end
    return t
 end
+
+function tablePrint(table)
+	for k,v in pairs(table) do
+		print(k.."\t"..v)
+	end
+end

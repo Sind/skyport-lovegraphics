@@ -3,7 +3,8 @@ function connect(ip,port)
 	local table = {
 		message = "connect",
 		revision = 1,
-		password = "supersecretpassword"
+		password = "supersecretpassword",
+		laserstyle = "start-stop"
 	}
 	conn.handshake = false
 	conn:setPing(false)
@@ -15,8 +16,7 @@ end
 
 
 function rcvCallback(data)
-	-- 
-	print(data)
+	-- print(data)
 	local lines = split(data, "\n")
 	for k,v in ipairs(lines) do
 		processLine(v)
@@ -24,6 +24,7 @@ function rcvCallback(data)
 end
 
 function processLine(data)
+	print(data)
 	if data ~= nil then
 		local datacontainer, pos, err = json.decode(data,1,nil)
 		if err then
@@ -50,14 +51,18 @@ function processLine(data)
 		elseif thingy == "connect" then
 			--
 		elseif thingy == "endactions" then
-			print("gamestate set: " .. tostring(gamestateset))
-		if not gamestateset then
-			print("printing ready!")
-			conn:send("{\"message\":\"ready\"}\n")
-		end
+			--print("gamestate set: " .. tostring(gamestateset))
+			if not gamestateset then
+				--print("printing ready!")
+				conn:send("{\"message\":\"ready\"}\n")
+			end
 			endturn = true
+		elseif thingy == "highlight" then
+			table.insert(highlightQue,datacontainer)
+		elseif thingy == "endturn" then
+			highlightQue = {}
 		else
-			print("couldn't understand message: " .. thingy)
+			--print("couldn't understand message: " .. thingy)
 		end
 	end
 end
