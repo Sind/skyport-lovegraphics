@@ -88,7 +88,7 @@ function render:laser(canvas,wd)
 	-- tablePrint(wd)
 
 	love.graphics.setCanvas(canvas)
-	love.graphics.setColor(255,255,255,180)
+	love.graphics.setColor(255,255,255,200)
 	love.graphics.draw(laserArt[wd.size],wd.x,wd.y,wd.rotation,wd.length,1,laserArt[wd.size]:getWidth()/2,laserArt[wd.size]:getHeight()/2)
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.setCanvas()

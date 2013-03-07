@@ -72,7 +72,15 @@ function animations:laser( dt, player, actionData )
 	local pJ, pK = animations:setJKp(actionData.start)
 	local px = render:toRealX(pJ+1,pK+1)
 	local py = render:toRealY(pJ+1,pK+1)
-	local lx, ly = animations:linInterpol(.5,actionData.start, actionData.stop)
+
+	local lTime = 0
+	if actiontime > .25 then
+		lTime = .5
+	else
+		lTime = actiontime*2
+	end
+
+	local lx, ly = animations:linInterpol(lTime,actionData.start, actionData.stop)
 	local laserLength = math.sqrt((2*(lx-px))^2 + (2*(ly-py))^2)
 	lx = lx+20
 	ly = ly+19
