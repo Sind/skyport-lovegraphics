@@ -73,7 +73,11 @@ function render:stats( canvas, state)
 end
 
 function render:playerstats( canvas, player, offset )
+	if player == currentPlayer then
+		love.graphics.setColor(255,0,0)
+	end
 	love.graphics.print(player.name,25,offset,0,1.5,1.5)
+	love.graphics.setColor(255,255,255)
 	love.graphics.print("Score: " .. player.score,15,offset+25)
 	love.graphics.print("HP:",15,offset+40)
 	love.graphics.setColor(125,0,0)

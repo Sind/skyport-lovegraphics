@@ -30,6 +30,7 @@ function levelRender:update(dt)
 		hex["S"] = love.graphics.newImage("graphics/spawn.png")
 		hex["O"] = love.graphics.newImage("graphics/rock.png")
 
+		currentPlayer = nil
 
 		actions = 0
 		actionTable = {nil,nil,nil}
@@ -48,22 +49,21 @@ function levelRender:update(dt)
 	end
 	if actions > 0 then
 		currentAction = actionTable[actions]
-		local player = nil
 		for i,cplayer in ipairs(gamestate.players) do
 			if cplayer.name == currentAction.from then
-				player = cplayer
+				currentPlayer = cplayer
 			end
 		end
 
 		local atype = currentAction.type
 		if  atype == "move" then
-			animations:move(dt,player,currentAction)
-		elseif atype == "pass" or atype == "droid" or atype == "mortar" then
-			actions = actions - 1
-		elseif atype == "mortar" then
-			weaponData = animations:mortar(dt,player,currentAction)
+			animations:move(dt,currentPlayer,currentAction)
+		-- elseif atype == "mortar" then
+		-- 	weaponData = animations:mortar(dt,currentPlayer,currentAction)
 		elseif atype == "laser" then
-			weaponData = animations:laser(dt,player,currentAction)
+			weaponData = animations:laser(dt,currentPlayer,currentAction)
+		else
+			actions = actions - 1
 		end
 	end
 
