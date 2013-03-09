@@ -62,6 +62,8 @@ function levelRender:update(dt)
 		-- 	weaponData = animations:mortar(dt,currentPlayer,currentAction)
 		elseif atype == "laser" then
 			weaponData = animations:laser(dt,currentPlayer,currentAction)
+		elseif atype == "mortar" then
+			weaponData = animations:mortar(dt,currentPlayer,currentAction)
 		else
 			actions = actions - 1
 		end

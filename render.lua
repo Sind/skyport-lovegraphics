@@ -103,11 +103,11 @@ function render:mortar(canvas,wd)
 	love.graphics.setCanvas(canvas)
 	if wd.atype == "bombthrow" then
 		love.graphics.setColor(0,0,0)
-		love.graphics.circle("fill",wd.x,wd.y,wd.size)
+		love.graphics.circle("fill",wd.x+20,wd.y+19,wd.size)
 		love.graphics.setColor(255,255,255)
 	elseif wd.atype == "explosion" then
-		love.graphics.setColor(0,0,0,128)
-		love.graphics.draw(explosionImage,x,y,0,1,1,explosionImage:getWidth()/2,explosionImage:getHeight()/2)
+		love.graphics.setColor(255,255,255,wd.alpha)
+		love.graphics.draw(explosionImage,wd.x+20,wd.y+19,0,1,1,explosionImage:getWidth()/2,explosionImage:getHeight()/2)
 		love.graphics.setColor(255,255,255,255)
 	end
 	love.graphics.setCanvas()

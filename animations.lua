@@ -102,15 +102,29 @@ function animations:laser( dt, player, actionData )
 end
 
 function animations:mortar( dt, player, actionData )
+	-- if not mortar then
+	-- 	table.insert(highlightQue,{message = highlight,coordinate=player.position,color={255,128,128}})
+	-- 	local pJ,pK = animations:setJKp(player.position)
+	-- 	local vJ,vK = animations:setJKp(actionData.coordinates)
+	-- 	local pString = pJ+vJ .. "," .. pK+vK
+	-- 	table.insert(highlightQue,{message = highlight,coordinate=pString,color={128,128,255}})
+	-- end
 	mortar = true
 	actiontime = actiontime + dt * 2
 	if actiontime <= 1 then
-		local bombsize = math.sin(actiontime*pi) * 4
-		local bx, by = animations:newpos(actiontime, player.position, actionData.coordinates)
+		local bombsize = math.sin(actiontime*math.pi) * 4
+
+		local bx,by = animations:newpos(actiontime, player.position, actionData.coordinates)
+
 		return {atype = "bombthrow", x = bx, y = by, size = bombsize}
 	elseif actiontime < 1.5 then
-		local bx,by = animations:linInterpol(1,player.position,actionData.coordinates)
-		return {atype = "explosion", x = bx, y = by}
+
+		local pJ,pK = animations:setJKp(player.position)
+		local vJ,vK = animations:setJKp(actionData.coordinates)
+		local pString = pJ+vJ .. "," .. pK+vK
+		local bx,by = animations:linInterpol(1,player.position,pString)
+		local a = 200 - math.abs(actiontime -1.25) * 4 * 100
+		return {atype = "explosion", x = bx, y = by, alpha = a}
 	else
 		actiontime = 0
 		actions = actions - 1
@@ -138,14 +152,14 @@ end
 
 function animations:newpos(time,start,vector)
 	local pJ, pK = animations:setJKp(start)
-	local vJ, vK = animations:setJKp(vector)
-	local px = render:toRealX(pJ,pK)
-	local py = render:toRealY(pJ,pK)
-	local vx = render:toRealX(vJ,vK)
-	local vy = render:toRealY(vJ,vK)
+	local dJ, dK = animations:setJKp(vector)
 
-	local bx = px + vx * ((-math.cos(time*math.pi))+1)/2
-	local by = py + vy * ((-math.cos(time*math.pi))+1)/2
+	local bJ = pJ + dJ * ((-math.cos(time*math.pi))+1)/2
+	local bK = pK + dK * ((-math.cos(time*math.pi))+1)/2
+
+	local bx = render:toRealX(bJ+1,bK+1)
+	local by = render:toRealY(bJ+1,bK+1)
+
 	return bx, by
 end
 
