@@ -109,6 +109,11 @@ function render:mortar(canvas,wd)
 		love.graphics.setColor(255,255,255,wd.alpha)
 		love.graphics.draw(explosionImage,wd.x+20,wd.y+19,0,1,1,explosionImage:getWidth()/2,explosionImage:getHeight()/2)
 		love.graphics.setColor(255,255,255,255)
+	elseif wd.atype == "smallexplosion" then
+	        love.graphics.setColor(255,255,255,wd.alpha)
+		love.graphics.draw(smallExplosionImage,wd.x+20,wd.y+19,0,1,1,
+				   smallExplosionImage:getWidth()/2,smallExplosionImage:getHeight()/2)
+		love.graphics.setColor(255,255,255,255)
 	end
 	love.graphics.setCanvas()
 end

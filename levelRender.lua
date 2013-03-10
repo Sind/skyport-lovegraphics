@@ -16,6 +16,7 @@ function levelRender:update(dt)
 
 		background = love.graphics.newImage("graphics/starrysky.png")
 		explosionImage = love.graphics.newImage("graphics/explosion.png")
+		smallExplosionImage = love.graphics.newImage("graphics/small-explosion.png")
 
 		laserArt = {}
 		laserArt[1] = love.graphics.newImage("graphics/laserS1.png")

@@ -100,6 +100,10 @@ function animations:laser( dt, player, actionData )
 	end
 	return {x = lx, y = ly, length = laserLength, size = laserSize, rotation = laserRotation}
 end
+function animations:determineTileType(absoluteJ, absoluteK)
+   local tileType = gamestate.map.data[absoluteJ+1][absoluteK+1]
+   return tileType
+end
 
 function animations:mortar( dt, player, actionData )
 	-- if not mortar then
@@ -121,10 +125,20 @@ function animations:mortar( dt, player, actionData )
 
 		local pJ,pK = animations:setJKp(player.position)
 		local vJ,vK = animations:setJKp(actionData.coordinates)
+
+		local tileType = "V"
+		pcall(function() tileType = animations:determineTileType(pJ + vJ, pK + vK) end)
+		
 		local pString = pJ+vJ .. "," .. pK+vK
 		local bx,by = animations:linInterpol(1,player.position,pString)
 		local a = 200 - math.abs(actiontime -1.25) * 4 * 100
-		return {atype = "explosion", x = bx, y = by, alpha = a}
+
+		if tileType == "V" or tileType == "O" then
+		   return {atype = "smallexplosion", x = bx, y = by, alpha = a}
+		else
+		   return {atype = "explosion", x = bx, y = by, alpha = a}		   
+		end
+		
 	else
 		actiontime = 0
 		actions = actions - 1
