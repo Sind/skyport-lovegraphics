@@ -102,7 +102,11 @@ function animations:laser( dt, player, actionData )
 end
 function animations:determineTileType(absoluteJ, absoluteK)
    local tileType = gamestate.map.data[absoluteJ+1][absoluteK+1]
-   return tileType
+   if tileType == nil then
+      return "V"
+   end
+   
+  return tileType
 end
 
 function animations:mortar( dt, player, actionData )
