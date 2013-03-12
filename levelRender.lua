@@ -45,6 +45,9 @@ function levelRender:update(dt)
 		ready = json.encode( { message = "ready"},{indent = false})
 		-- ready = json.encode({message = "ready"})
 	end
+
+	if pause then return end
+
 	if gamestateset then
 	   animations:setJK(gamestate.players)
 	end
@@ -65,6 +68,8 @@ function levelRender:update(dt)
 			weaponData = animations:laser(dt,currentPlayer,currentAction)
 		elseif atype == "mortar" then
 			weaponData = animations:mortar(dt,currentPlayer,currentAction)
+		elseif atype == "droid" then
+			weaponData = animations:droid(dt,currentPlayer,currentAction)
 		else
 			actions = actions - 1
 		end
@@ -92,6 +97,12 @@ function levelRender:draw()
 		render:players(board, gamestate.players)
 		render:stats(scoreboard, gamestate)
 		render:highlights(board,highlightQue)
+
+		if pause then
+			love.graphics.print("Paused",boardWidth/2-50,boardHeight/2-50,0,5,5)
+			return
+		end
+
 		if mortar then
 			render:mortar(board,weaponData)
 		end
@@ -158,4 +169,23 @@ function pot( width, height )
 		if newHeight >= height then testbool = false end
 	end
 	return newWidth, newHeight
+end
+
+function levelRender.keyreleased(key,unicode)
+	if key == "space" then
+		if pause then
+			pause = false
+			conn:send('{"message":"resume"}')
+		else
+			pause = true
+			conn:send('{"message":"pause"}')
+		end
+	end
+
+	if key == "+" then
+		conn:send('{"message":"faster"}')
+	end
+	if key == "-" then
+		conn:send('{"message":"slower"}')
+	end
 end

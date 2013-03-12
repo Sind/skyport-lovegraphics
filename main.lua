@@ -64,7 +64,7 @@ end
 
 function love.keyreleased(key,unicode)
 	if gamemodes[mode].keyreleased then
-		gamemodes[mode]:keyreleased()
+		gamemodes[mode]:keyreleased(key,unicode)
 	end
 end
 

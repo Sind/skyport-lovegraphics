@@ -119,7 +119,19 @@ function render:mortar(canvas,wd)
 end
 
 function render:droid(canvas,wd)
-
+	
+	love.graphics.setCanvas(canvas)
+	if wd.atype == "droidmove" then
+		love.graphics.setColor(128,128,128)
+		love.graphics.circle("fill",wd.x+20,wd.y+19,3)
+		love.graphics.setColor(255,255,255)
+	end
+	if wd.atype == "explosion" then
+		love.graphics.setColor(255,255,255,wd.alpha)
+		love.graphics.draw(explosionImage,wd.x+20,wd.y+19,0,1,1,explosionImage:getWidth()/2,explosionImage:getHeight()/2)
+		love.graphics.setColor(255,255,255,255)
+	end
+	love.graphics.setCanvas()
 end
 
 function render:toRealX( j, k )

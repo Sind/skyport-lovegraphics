@@ -34,8 +34,8 @@ function processLine(data)
 		local thingy = datacontainer.message
 		if thingy == "gamestate" then
 			if datacontainer["turn"] ~= 0 then
-			gamestateset = true
-			gamestate = datacontainer
+				gamestateset = true
+				gamestate = datacontainer
 			else
 				playernames = {}
 				for i,player in ipairs(datacontainer.players) do

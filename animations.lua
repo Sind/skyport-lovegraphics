@@ -151,6 +151,68 @@ function animations:mortar( dt, player, actionData )
 	end
 end
 
+function animations:droid( dt, player, actionData )
+	if not droid then
+		actionData.positions = {}
+
+		actionData.positions[1] = player.position
+		local pJ, pK = animations:setJKp(player.position)
+
+		for i = 1, #actionData.sequence,1 do
+			local nJ, nK = animations:setJKp(actionData.positions[i])
+
+			local direction = actionData.sequence[i]
+
+			if direction == "up" then
+				nK = nK - 1
+				nJ = nJ - 1
+			elseif direction == "left-up" then
+				nK = nK - 1
+			elseif direction == "left-down" then
+				nJ = nJ + 1
+			elseif direction == "down" then
+				nK = nK + 1
+				nJ = nJ + 1
+			elseif direction == "right-down" then
+				nK = nK + 1
+			elseif direction == "right-up" then
+				nJ = nJ - 1
+			end
+
+			actionData.positions[i+1] = (nJ .. "," .. nK)
+		end
+
+		droidCounter = 1
+	end
+	droid = true
+
+
+	actiontime = actiontime + dt * 2
+
+	if actiontime > .5 then
+		actiontime = 0
+		droidCounter = droidCounter+1
+	end
+
+	if droidCounter == #actionData.positions then
+		local a = 200 - math.abs(actiontime -.25) * 8 * 100
+		-- print(actionData.positions[droidCounter])
+		local bJ, bK = animations:setJKp(actionData.positions[droidCounter])
+		-- print(bJ .. "," .. bK)
+		local bx = render:toRealX(bJ+1,bK+1)
+		local by = render:toRealY(bJ+1,bK+1)
+		return {atype = "explosion",x = bx, y = by, alpha = a}
+	elseif droidCounter == #actionData.positions+1 then
+		droid = false
+		actiontime = 0
+		actions = actions - 1
+		return nil
+	end
+
+	local bx,by = animations:linInterpol(actiontime*2,actionData.positions[droidCounter],actionData.positions[droidCounter+1])
+	return {atype = "droidmove", x = bx, y = by}
+end
+
 
 function animations:linInterpol(time,start,stop)
 	local pJ, pK = animations:setJKp(start)
