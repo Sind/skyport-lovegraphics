@@ -123,7 +123,7 @@ function render:droid(canvas,wd)
 	love.graphics.setCanvas(canvas)
 	if wd.atype == "droidmove" then
 		love.graphics.setColor(128,128,128)
-		love.graphics.circle("fill",wd.x+20,wd.y+19,3)
+		love.graphics.rectangle("fill",wd.x+17,wd.y+16,6,6)
 		love.graphics.setColor(255,255,255)
 	end
 	if wd.atype == "explosion" then
