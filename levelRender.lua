@@ -187,7 +187,7 @@ function levelRender:keyreleased(key,unicode)
 			conn:send("{\"message\":\"resume\"}\n")
 		else
 			pause = true
-			conn:send("{"message":"pause"}\n")
+			conn:send("{\"message\":\"pause\"}\n")
 		end
 	end
 
