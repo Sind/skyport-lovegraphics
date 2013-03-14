@@ -33,6 +33,8 @@ function levelRender:update(dt)
 
 		currentPlayer = nil
 
+		textTimer = 0
+
 		actions = 0
 		actionTable = {nil,nil,nil}
 
@@ -77,6 +79,10 @@ function levelRender:update(dt)
 
 	levelRender:testButtons();
 
+	textTimer = textTimer-dt
+	if textTimer < 0 then
+		displayText = false
+	end
 	if actions == 0 and endturn then
 		conn:send(ready .. '\n')
 		endturn = false
@@ -98,11 +104,6 @@ function levelRender:draw()
 		render:stats(scoreboard, gamestate)
 		render:highlights(board,highlightQue)
 
-		if pause then
-			love.graphics.print("Paused",boardWidth/2-50,boardHeight/2-50,0,5,5)
-			return
-		end
-
 		if mortar then
 			render:mortar(board,weaponData)
 		end
@@ -116,6 +117,14 @@ function levelRender:draw()
 		love.graphics.draw(board,0,0,0,1,1,boardX,boardY)
 		love.graphics.draw(scoreboard,love.graphics.getWidth()-scoreboard:getWidth(),0)
 		love.graphics.setColorMode("modulate")
+
+		if displayText then
+			render:subtitle();
+		end
+
+		if pause then
+			love.graphics.print("Paused",boardWidth/2-50,boardHeight/2-50,0,5,5)
+		end
 	end
 end
 
@@ -171,8 +180,8 @@ function pot( width, height )
 	return newWidth, newHeight
 end
 
-function levelRender.keyreleased(key,unicode)
-	if key == "space" then
+function levelRender:keyreleased(key,unicode)
+	if key == " " then
 		if pause then
 			pause = false
 			conn:send('{"message":"resume"}')

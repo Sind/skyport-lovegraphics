@@ -59,6 +59,10 @@ function processLine(data)
 			endturn = true
 		elseif thingy == "highlight" then
 			table.insert(highlightQue,datacontainer)
+		elseif thingy == "subtitle" then
+			textDisplay = true
+			TextTimer = 3
+			displayText = datacontainer.text
 		elseif thingy == "endturn" then
 			highlightQue = {}
 		else

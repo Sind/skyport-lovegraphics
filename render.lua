@@ -134,6 +134,10 @@ function render:droid(canvas,wd)
 	love.graphics.setCanvas()
 end
 
+function render:subtitle()
+	love.graphics.print(textDisplay,200,love.graphics.getHeight()-200,0,50)
+end
+
 function render:toRealX( j, k )
 	return 30 * (gamestate.map["k-length"]+k-j-1)
 end
