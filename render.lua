@@ -135,7 +135,8 @@ function render:droid(canvas,wd)
 end
 
 function render:subtitle()
-	love.graphics.print(textDisplay,200,love.graphics.getHeight()-200,0,50)
+   print("rendering subtitle!")
+	love.graphics.print(displayText,200,love.graphics.getHeight()-200,0,2)
 end
 
 function render:toRealX( j, k )

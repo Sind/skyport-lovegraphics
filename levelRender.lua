@@ -81,7 +81,7 @@ function levelRender:update(dt)
 
 	textTimer = textTimer-dt
 	if textTimer < 0 then
-		displayText = false
+		textDisplay = false
 	end
 	if actions == 0 and endturn then
 		conn:send(ready .. '\n')
@@ -118,7 +118,7 @@ function levelRender:draw()
 		love.graphics.draw(scoreboard,love.graphics.getWidth()-scoreboard:getWidth(),0)
 		love.graphics.setColorMode("modulate")
 
-		if displayText then
+		if textDisplay then
 			render:subtitle();
 		end
 
