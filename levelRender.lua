@@ -184,17 +184,17 @@ function levelRender:keyreleased(key,unicode)
 	if key == " " then
 		if pause then
 			pause = false
-			conn:send('{"message":"resume"}')
+			conn:send("{\"message\":\"resume\"}\n")
 		else
 			pause = true
-			conn:send('{"message":"pause"}')
+			conn:send("{"message":"pause"}\n")
 		end
 	end
 
 	if key == "+" then
-		conn:send('{"message":"faster"}')
+		conn:send("{\"message\":\"faster\"}\n")
 	end
 	if key == "-" then
-		conn:send('{"message":"slower"}')
+		conn:send("{\"message\":\"slower\"}\n")
 	end
 end
