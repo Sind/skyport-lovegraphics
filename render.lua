@@ -134,6 +134,14 @@ function render.droid(canvas,wd)
 	love.graphics.setCanvas()
 end
 
+function render.mine( canvas, wd )
+	if wd.atype ~= "R" and wd.atype ~= "C" and wd.atype ~= "E" then return end
+
+	love.graphics.setCanvas(canvas)
+	love.graphics.draw(resources[wd.atype],wd.x+20,wd.y,0,1,1,resources[wd.atype]:getWidth()/2,resources[wd.atype]:getHeight()/2)
+	love.graphics.setCanvas()
+end
+
 function render.subtitle()
    print("rendering subtitle!")
 	love.graphics.print(displayText,200,love.graphics.getHeight()-200,0,2)

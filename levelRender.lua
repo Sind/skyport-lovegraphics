@@ -31,6 +31,12 @@ function levelRender.update(dt)
 		hex["S"] = love.graphics.newImage("graphics/spawn.png")
 		hex["O"] = love.graphics.newImage("graphics/rock.png")
 
+		resources = {}
+
+		resources["R"] = love.graphics.newImage("graphics/rubidiumicon.png")
+		resources["E"] = love.graphics.newImage("graphics/explosiumicon.png")
+		resources["C"] = love.graphics.newImage("graphics/scrapicon.png")
+
 		currentPlayer = nil
 
 		textTimer = 0
@@ -72,8 +78,8 @@ function levelRender.update(dt)
 			weaponData = animations.mortar(dt,currentPlayer,currentAction)
 		elseif atype == "droid" then
 			weaponData = animations.droid(dt,currentPlayer,currentAction)
-		-- elseif atype == "mine" then
-		-- 	weaponData = animations.mine(dt,currentPlayer,currentAction)
+		elseif atype == "mine" then
+			weaponData = animations.mine(dt,currentPlayer,currentAction)
 		else
 			actions = actions - 1
 		end
@@ -115,6 +121,11 @@ function levelRender.draw()
 		if droid then
 			render.droid(board,weaponData)
 		end
+
+		if mine then
+			render.mine(board,weaponData)
+		end
+
 		love.graphics.setColorMode("replace")
 		love.graphics.draw(board,0,0,0,1,1,boardX,boardY)
 		love.graphics.draw(scoreboard,love.graphics.getWidth()-scoreboard:getWidth(),0)
@@ -158,7 +169,6 @@ function levelRender.sortplayers(players)
 		for j,player in ipairs(players) do
 			if playername == player.name then
 				playerstable[i] = player
-				print("sorting")
 				break
 			end
 		end

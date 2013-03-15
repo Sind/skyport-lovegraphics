@@ -214,7 +214,23 @@ function animations.droid( dt, player, actionData )
 end
 
 function animations.mine(dt,currentPlayer,currentAction)
+	mine = true
+	actiontime = actiontime + dt
 
+	if actiontime > .5 then
+		mine = false
+		actiontime = 0
+		actions = actions - 1
+		return nil
+	end
+	local pJ, pK = animations.setJKp(player.position)
+	local bx = render.toRealX(pJ,pK)
+	local by = render.toRealY(pJ,pK) - actiontime * 20
+
+	local tileType = animations.determineTiletype(pJ,pK)
+	local a = 100 + math.sin(dt*math.pi*2) * 100
+
+	return {atype = tileType, x = bx, y = by, alpha = a}
 end
 
 
