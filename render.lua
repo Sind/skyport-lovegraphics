@@ -1,6 +1,6 @@
-render = class:new()
+render = {}
 
-function render:background( canvas )
+function render.background( canvas )
 	love.graphics.setCanvas( canvas )
 
 	for i = 0, canvas:getWidth(), background:getWidth() do
@@ -11,13 +11,13 @@ function render:background( canvas )
 	love.graphics.setCanvas()
 end
 
-function render:tiles( canvas )
+function render.tiles( canvas )
 	love.graphics.setCanvas( canvas )
 	for j = 1, gamestate.map["j-length"] do
 		for k = 1, gamestate.map["k-length"] do
 			if gamestate.map.data[j][k] ~= "V" then
-				local realX = render:toRealX(j,k)
-				local realY = render:toRealY(j,k)
+				local realX = render.toRealX(j,k)
+				local realY = render.toRealY(j,k)
 				local thisImage = hex[gamestate.map.data[j][k]]
 				love.graphics.draw(thisImage, realX, realY)
 			end
@@ -26,17 +26,17 @@ function render:tiles( canvas )
 	love.graphics.setCanvas()
 end
 
-function render:players( canvas, players)
+function render.players( canvas, players)
 	local colorArray = {{255,0,0},{0,255,0},{0,0,255},{255,255,0},{255,0,255},{0,255,255}}
 	for i,v in ipairs(players) do
-		render:player(canvas, v, colorArray[i])
+		render.player(canvas, v, colorArray[i])
 	end
 end
 
-function render:player( canvas, player, color)
+function render.player( canvas, player, color)
 	love.graphics.setCanvas( canvas )
-	local realX = render:toRealX(player.realJ+1,player.realK+1)
-	local realY = render:toRealY(player.realJ+1,player.realK+1)
+	local realX = render.toRealX(player.realJ+1,player.realK+1)
+	local realY = render.toRealY(player.realJ+1,player.realK+1)
 	love.graphics.print(player.name,realX,realY)
 	love.graphics.setColor(color)
 	love.graphics.circle("fill", realX+20, realY+19,10)
@@ -45,19 +45,19 @@ function render:player( canvas, player, color)
 	love.graphics.setCanvas()
 end
 
-function render:highlights(canvas,que)
+function render.highlights(canvas,que)
 	love.graphics.setCanvas(canvas)
 	for i,v in ipairs(que) do
 		v.color[4] = 128
 		love.graphics.setColor(v.color)
-		local J,K = animations:setJKp(v.coordinate)
-		love.graphics.rectangle("fill",render:toRealX(J+1,K+1),render:toRealY(J+1,K+1),40,38)
+		local J,K = animations.setJKp(v.coordinate)
+		love.graphics.rectangle("fill",render.toRealX(J+1,K+1),render.toRealY(J+1,K+1),40,38)
 		love.graphics.setColor(255,255,255)
 	end
 	love.graphics.setCanvas()
 end
 
-function render:stats( canvas, state)
+function render.stats( canvas, state)
 	love.graphics.setCanvas(canvas)
 	love.graphics.setColor(40,40,40)
 	love.graphics.rectangle("fill",0,0,canvas:getWidth(),canvas:getHeight())
@@ -67,12 +67,12 @@ function render:stats( canvas, state)
 	love.graphics.print("Turn number: " .. state.turn,20,20)
 	
 	for i,player in ipairs(state.players) do
-		render:playerstats(canvas, player, (i-.5)*offset)
+		render.playerstats(canvas, player, (i-.5)*offset)
 	end
 	love.graphics.setCanvas()
 end
 
-function render:playerstats( canvas, player, offset )
+function render.playerstats( canvas, player, offset )
 	if player == currentPlayer then
 		love.graphics.setColor(255,0,0)
 	end
@@ -87,7 +87,7 @@ function render:playerstats( canvas, player, offset )
 	love.graphics.print("Primary weapon: " .. player["primary-weapon"]["name"] .. " " .. player["primary-weapon"]["level"] .. "\nSecond weapon: " .. player["secondary-weapon"]["name"] .. " " .. player["secondary-weapon"]["level"], 15, offset + 60)
 end
 
-function render:laser(canvas,wd)
+function render.laser(canvas,wd)
 	-- print("rendering laser")
 	-- tablePrint(wd)
 
@@ -98,7 +98,7 @@ function render:laser(canvas,wd)
 	love.graphics.setCanvas()
 end
 
-function render:mortar(canvas,wd)
+function render.mortar(canvas,wd)
 
 	love.graphics.setCanvas(canvas)
 	if wd.atype == "bombthrow" then
@@ -118,7 +118,7 @@ function render:mortar(canvas,wd)
 	love.graphics.setCanvas()
 end
 
-function render:droid(canvas,wd)
+function render.droid(canvas,wd)
 	
 	love.graphics.setCanvas(canvas)
 	if wd.atype == "droidmove" then
@@ -134,15 +134,15 @@ function render:droid(canvas,wd)
 	love.graphics.setCanvas()
 end
 
-function render:subtitle()
+function render.subtitle()
    print("rendering subtitle!")
 	love.graphics.print(displayText,200,love.graphics.getHeight()-200,0,2)
 end
 
-function render:toRealX( j, k )
+function render.toRealX( j, k )
 	return 30 * (gamestate.map["k-length"]+k-j-1)
 end
 
-function render:toRealY( j, k )
+function render.toRealY( j, k )
 	return 19 * (j + k - 2)
 end

@@ -1,6 +1,6 @@
-levelRender = class:new()
+levelRender = {}
 
-function levelRender:update(dt)
+function levelRender.update(dt)
 	if init then
 		boardWidth = (gamestate.map["k-length"]+gamestate.map["j-length"])*30-20
 		boardHeight = (gamestate.map["k-length"]+gamestate.map["j-length"])*20
@@ -51,7 +51,7 @@ function levelRender:update(dt)
 	if pause then return end
 
 	if gamestateset then
-	   animations:setJK(gamestate.players)
+	   animations.setJK(gamestate.players)
 	end
 	if actions > 0 then
 		currentAction = actionTable[actions]
@@ -63,21 +63,23 @@ function levelRender:update(dt)
 
 		local atype = currentAction.type
 		if  atype == "move" then
-			animations:move(dt,currentPlayer,currentAction)
+			animations.move(dt,currentPlayer,currentAction)
 		-- elseif atype == "mortar" then
 		-- 	weaponData = animations:mortar(dt,currentPlayer,currentAction)
 		elseif atype == "laser" then
-			weaponData = animations:laser(dt,currentPlayer,currentAction)
+			weaponData = animations.laser(dt,currentPlayer,currentAction)
 		elseif atype == "mortar" then
-			weaponData = animations:mortar(dt,currentPlayer,currentAction)
+			weaponData = animations.mortar(dt,currentPlayer,currentAction)
 		elseif atype == "droid" then
-			weaponData = animations:droid(dt,currentPlayer,currentAction)
+			weaponData = animations.droid(dt,currentPlayer,currentAction)
+		-- elseif atype == "mine" then
+		-- 	weaponData = animations.mine(dt,currentPlayer,currentAction)
 		else
 			actions = actions - 1
 		end
 	end
 
-	levelRender:testButtons();
+	levelRender.testButtons();
 
 	textTimer = textTimer-dt
 	if textTimer < 0 then
@@ -95,23 +97,23 @@ function levelRender:update(dt)
 	end
 end
 
-function levelRender:draw()
+function levelRender.draw()
 	if not init then
-		render:background(board)
-		render:tiles(board)
-		gamestate.players = levelRender:sortplayers(gamestate.players)
-		render:players(board, gamestate.players)
-		render:stats(scoreboard, gamestate)
-		render:highlights(board,highlightQue)
+		render.background(board)
+		render.tiles(board)
+		gamestate.players = levelRender.sortplayers(gamestate.players)
+		render.players(board, gamestate.players)
+		render.stats(scoreboard, gamestate)
+		render.highlights(board,highlightQue)
 
 		if mortar then
-			render:mortar(board,weaponData)
+			render.mortar(board,weaponData)
 		end
 		if laser then
-			render:laser(board,weaponData)
+			render.laser(board,weaponData)
 		end
 		if droid then
-			render:droid(board,weaponData)
+			render.droid(board,weaponData)
 		end
 		love.graphics.setColorMode("replace")
 		love.graphics.draw(board,0,0,0,1,1,boardX,boardY)
@@ -119,7 +121,7 @@ function levelRender:draw()
 		love.graphics.setColorMode("modulate")
 
 		if textDisplay then
-			render:subtitle();
+			render.subtitle();
 		end
 
 		if pause then
@@ -129,7 +131,7 @@ function levelRender:draw()
 end
 
 
-function levelRender:testButtons()
+function levelRender.testButtons()
 	if love.keyboard.isDown("left") then
 		if boardX >= 0 then
 			boardX = boardX - 8
@@ -150,13 +152,13 @@ function levelRender:testButtons()
 	end
 end
 
-function levelRender:sortplayers(players)
+function levelRender.sortplayers(players)
 	local playerstable = {}
-	local index = 1
 	for i,playername in ipairs(playernames) do
 		for j,player in ipairs(players) do
 			if playername == player.name then
 				playerstable[i] = player
+				print("sorting")
 				break
 			end
 		end
@@ -180,7 +182,7 @@ function pot( width, height )
 	return newWidth, newHeight
 end
 
-function levelRender:keyreleased(key,unicode)
+function levelRender.keyreleased(key,unicode)
 	if key == " " then
 		if pause then
 			pause = false

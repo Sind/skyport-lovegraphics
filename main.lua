@@ -39,7 +39,7 @@ end
 
 function love.draw()
 	if gamemodes[mode].draw then
-		gamemodes[mode]:draw()
+		gamemodes[mode].draw()
 	end
 end
 
@@ -48,7 +48,7 @@ function love.update(dt)
 		conn:update(dt)
 	end
 	if gamemodes[mode].update then
-		gamemodes[mode]:update(dt)
+		gamemodes[mode].update(dt)
 	end
 	collectgarbage('collect')
 end
@@ -58,13 +58,13 @@ function love.keypressed(key,unicode)
       	love.event.push("quit")   -- actually causes the app to quit
 	end
 	if gamemodes[mode].keypressed then
-		gamemodes[mode]:keypressed(key,unicode)
+		gamemodes[mode].keypressed(key,unicode)
 	end
 end
 
 function love.keyreleased(key,unicode)
 	if gamemodes[mode].keyreleased then
-		gamemodes[mode]:keyreleased(key,unicode)
+		gamemodes[mode].keyreleased(key,unicode)
 	end
 end
 

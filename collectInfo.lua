@@ -1,9 +1,9 @@
-collectInfo = class:new()
+collectInfo = {}
 
 ipCounter = 1
 ipInfo = {"",""}
 
-function collectInfo:update(dt)
+function collectInfo.update(dt)
 	if(init) then
 		waitingForInfo = true
 		init = false
@@ -22,7 +22,7 @@ function collectInfo:update(dt)
 	end
 end
 
-function collectInfo:draw()
+function collectInfo.draw()
 	local marker = {"",""}
 	if ipCounter == 1 then
 		marker[1] = "|"
@@ -33,7 +33,7 @@ function collectInfo:draw()
 	love.graphics.print("Port: " .. ipInfo[2] .. marker[2], 300, 230)
 end
 
-function collectInfo:keypressed(key, unicode)
+function collectInfo.keypressed(key, unicode)
 	if unicode > 45 and unicode < 58 and unicode ~= 47 then
 		ipInfo[ipCounter] = ipInfo[ipCounter] .. key
 	end

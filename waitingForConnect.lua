@@ -1,6 +1,6 @@
-waitingForConnect = class:new()
+waitingForConnect = {}
 
-function waitingForConnect:update(dt)
+function waitingForConnect.update(dt)
 	if init then
 		infocounter = 0;
 		connect(ip,port)
@@ -19,10 +19,6 @@ function waitingForConnect:update(dt)
 	end
 end
 
-function waitingForConnect:draw()
+function waitingForConnect.draw()
 	love.graphics.print("waiting for connection",100,100)
-end
-
-function waitingForConnect:keypressed(key,unicode)
-	--
 end
