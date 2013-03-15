@@ -36,6 +36,7 @@ function processLine(data)
 			if datacontainer["turn"] ~= 0 then
 				gamestateset = true
 				gamestate = datacontainer
+				animations.setJK(gamestate.players)
 			else
 				playernames = {}
 				for i,player in ipairs(datacontainer.players) do

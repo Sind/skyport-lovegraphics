@@ -16,26 +16,27 @@ end
 function animations.move( dt, player, actionData )
 	actiontime = actiontime + dt * 3
 
-	if actiontime >= 1 then actiontime = 1 end
 	local direction = actionData.direction
 	
 	if direction == "up" then
-		player.realK = player.realK - actiontime
-		player.realJ = player.realJ - actiontime
+		player.realK = player.realK - dt * 3
+		player.realJ = player.realJ - dt * 3
 	elseif direction == "left-up" then
-		player.realK = player.realK - actiontime
+		player.realK = player.realK - dt * 3
 	elseif direction == "left-down" then
-		player.realJ = player.realJ + actiontime
+		player.realJ = player.realJ + dt * 3
 	elseif direction == "down" then
-		player.realK = player.realK + actiontime
-		player.realJ = player.realJ + actiontime
+		player.realK = player.realK + dt * 3
+		player.realJ = player.realJ + dt * 3
 	elseif direction == "right-down" then
-		player.realK = player.realK + actiontime
+		player.realK = player.realK + dt * 3
 	elseif direction == "right-up" then
-		player.realJ = player.realJ - actiontime
+		player.realJ = player.realJ - dt * 3
 	end
 
-	if actiontime == 1 then
+	if actiontime >= 1 then
+		player.realJ = math.floor(player.realJ+.5)
+		player.realK = math.floor(player.realK+.5)
 		player.position = player.realJ .. "," .. player.realK
 		actions = actions-1
 		actiontime = 0
@@ -101,10 +102,7 @@ function animations.laser( dt, player, actionData )
 	return {x = lx, y = ly, length = laserLength, size = laserSize, rotation = laserRotation}
 end
 function animations.determineTileType(absoluteJ, absoluteK)
-   local tileType = gamestate.map.data[absoluteJ+1][absoluteK+1]
-   if tileType == nil then
-      return "V"
-   end
+   local tileType = gamestate.map.data[absoluteJ+1][absoluteK+1] or "V"
    
   return tileType
 end
@@ -213,7 +211,7 @@ function animations.droid( dt, player, actionData )
 	return {atype = "droidmove", x = bx, y = by}
 end
 
-function animations.mine(dt,currentPlayer,currentAction)
+function animations.mine(dt,player,actionData)
 	mine = true
 	actiontime = actiontime + dt
 
@@ -225,9 +223,9 @@ function animations.mine(dt,currentPlayer,currentAction)
 	end
 	local pJ, pK = animations.setJKp(player.position)
 	local bx = render.toRealX(pJ,pK)
-	local by = render.toRealY(pJ,pK) - actiontime * 20
+	local by = render.toRealY(pJ,pK) - actiontime * 32
 
-	local tileType = animations.determineTiletype(pJ,pK)
+	local tileType = animations.determineTileType(pJ,pK)
 	local a = 100 + math.sin(dt*math.pi*2) * 100
 
 	return {atype = tileType, x = bx, y = by, alpha = a}

@@ -56,9 +56,9 @@ function levelRender.update(dt)
 
 	if pause then return end
 
-	if gamestateset then
-	   animations.setJK(gamestate.players)
-	end
+	-- if gamestateset then
+	--    animations.setJK(gamestate.players)
+	-- end
 	if actions > 0 then
 		currentAction = actionTable[actions]
 		for i,cplayer in ipairs(gamestate.players) do
